@@ -2,21 +2,6 @@
 # Deploy Message Broker v2 to Render.com
 
 services:
-  # PostgreSQL Database
-  - type: pserv
-    name: message-broker-db
-    env: docker
-    plan: free
-    repo: https://github.com/artpro88/message-broker.git
-    dockerfilePath: ./Dockerfile.db
-    envVars:
-      - key: POSTGRES_USER
-        value: postgres
-      - key: POSTGRES_PASSWORD
-        generateValue: true
-      - key: POSTGRES_DB
-        value: message_broker
-
   # Backend API Service
   - type: web
     name: message-broker-backend
@@ -34,21 +19,15 @@ services:
       - key: INSTANCE_NAME
         value: render
       - key: DB_HOST
-        fromService:
-          type: pserv
-          name: message-broker-db
-          property: host
+        sync: false
       - key: DB_PORT
         value: 5432
       - key: DB_NAME
-        value: message_broker
+        sync: false
       - key: DB_USER
-        value: postgres
+        sync: false
       - key: DB_PASSWORD
-        fromService:
-          type: pserv
-          name: message-broker-db
-          envVarKey: POSTGRES_PASSWORD
+        sync: false
       - key: TWILIO_ACCOUNT_SID
         sync: false
       - key: TWILIO_AUTH_TOKEN
