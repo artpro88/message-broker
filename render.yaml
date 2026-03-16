@@ -7,7 +7,6 @@ services:
     name: message-broker-db
     env: docker
     plan: free
-    ipAddress: private
     repo: https://github.com/artpro88/message-broker.git
     dockerfilePath: ./Dockerfile.db
     envVars:
