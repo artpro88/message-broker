@@ -38,6 +38,9 @@ WORKDIR /app
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
 
+# Copy package.json (needed for "type": "module" configuration)
+COPY package.json ./
+
 # Copy backend dependencies from builder
 COPY --from=backend-builder /app/node_modules ./node_modules
 
