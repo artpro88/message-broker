@@ -9,7 +9,7 @@ WORKDIR /app/client
 COPY client/package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
 # Copy client source
 COPY client/src ./src
@@ -28,7 +28,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm install --only=production
 
 # Stage 3: Runtime
 FROM node:18-alpine
