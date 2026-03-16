@@ -28,7 +28,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --only=production
+RUN npm install --omit=dev
 
 # Stage 3: Runtime
 FROM node:18-alpine
