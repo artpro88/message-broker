@@ -7,6 +7,16 @@ import * as liveChatService from '../services/liveChatService.js';
 
 const router = express.Router();
 
+// Get all conversations
+router.get('/', async (req, res) => {
+  try {
+    const conversations = await conversationService.getAllConversations();
+    res.json(conversations);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get all conversations for a customer
 router.get('/customer/:customerId', async (req, res) => {
   try {

@@ -15,12 +15,26 @@ function App() {
   const [currentPage, setCurrentPage] = useState('conversations');
 
   useEffect(() => {
+    fetchConversations();
+
     // Initialize Socket.IO connection
     // const socket = io('http://localhost:3000');
     // socket.on('new_message', (data) => {
     //   // Handle new incoming message
     // });
   }, []);
+
+  const fetchConversations = async () => {
+    try {
+      const response = await fetch('/api/conversations');
+      if (response.ok) {
+        const data = await response.json();
+        setConversations(data);
+      }
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+    }
+  };
 
   const handleSelectConversation = async (conversation) => {
     setSelectedConversation(conversation);

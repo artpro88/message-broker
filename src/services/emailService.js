@@ -1,21 +1,30 @@
 import nodemailer from 'nodemailer';
+import config from '../config.js';
 import * as customerService from './customerService.js';
 import * as conversationService from './conversationService.js';
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
-  }
-});
+// Create transporter dynamically based on current config
+const getTransporter = () => {
+  return nodemailer.createTransport({
+    host: config.email.host,
+    port: config.email.port,
+    secure: config.email.port === 465, // Use secure for port 465, not 587
+    auth: {
+      user: config.email.user,
+      pass: config.email.password
+    }
+  });
+};
 
 export const sendEmail = async (toEmail, subject, htmlContent, textContent) => {
   try {
+    if (!config.email.host || !config.email.user || !config.email.password) {
+      throw new Error('Email configuration is incomplete. Please configure email settings.');
+    }
+
+    const transporter = getTransporter();
     const result = await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+      from: config.email.from,
       to: toEmail,
       subject,
       html: htmlContent,

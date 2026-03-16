@@ -1,5 +1,17 @@
 import { query } from '../db.js';
 
+export const getAllConversations = async () => {
+  const result = await query(
+    `SELECT c.*, cust.name, cust.email, cust.phone_number
+     FROM conversations c
+     LEFT JOIN customers cust ON c.customer_id = cust.id
+     WHERE c.status != 'closed'
+     ORDER BY c.updated_at DESC`,
+    []
+  );
+  return result.rows;
+};
+
 export const getConversationByCustomerId = async (customerId) => {
   const result = await query(
     `SELECT * FROM conversations 
