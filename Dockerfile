@@ -13,7 +13,6 @@ RUN npm ci
 
 # Copy client source
 COPY client/src ./src
-COPY client/public ./public
 COPY client/index.html ./
 COPY client/vite.config.js ./
 
