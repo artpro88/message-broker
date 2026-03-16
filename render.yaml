@@ -79,13 +79,10 @@ services:
         value: info
 
   # Frontend Service (Static Site)
-  - type: static
+  - type: web
     name: message-broker-frontend
     env: static
     repo: https://github.com/artpro88/message-broker.git
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: ./client/dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://message-broker-backend.onrender.com
 
