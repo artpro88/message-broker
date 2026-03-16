@@ -1,0 +1,111 @@
+import React, { useState, useEffect } from 'react';
+import ConversationList from './components/ConversationList';
+import ThreadView from './components/ThreadView';
+import CustomerInfo from './components/CustomerInfo';
+import ReplyBox from './components/ReplyBox';
+import './App.css';
+
+function App() {
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [conversations, setConversations] = useState([]);
+  const [customer, setCustomer] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Initialize Socket.IO connection
+    // const socket = io('http://localhost:3000');
+    // socket.on('new_message', (data) => {
+    //   // Handle new incoming message
+    // });
+  }, []);
+
+  const handleSelectConversation = async (conversation) => {
+    setSelectedConversation(conversation);
+    setLoading(true);
+    
+    try {
+      // Fetch conversation messages
+      const response = await fetch(`/api/conversations/${conversation.id}`);
+      const data = await response.json();
+      setMessages(data.messages);
+
+      // Fetch customer info
+      const customerResponse = await fetch(`/api/customers/${conversation.customer_id}`);
+      const customerData = await customerResponse.json();
+      setCustomer(customerData);
+    } catch (error) {
+      console.error('Error loading conversation:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSendReply = async (message, channel) => {
+    if (!selectedConversation || !customer) return;
+
+    try {
+      const endpoint = `/api/conversations/${selectedConversation.id}/reply/${channel}`;
+      const payload = {
+        customerId: customer.id,
+        message
+      };
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        // Refresh messages
+        const messagesResponse = await fetch(`/api/conversations/${selectedConversation.id}`);
+        const data = await messagesResponse.json();
+        setMessages(data.messages);
+      }
+    } catch (error) {
+      console.error('Error sending reply:', error);
+    }
+  };
+
+  return (
+    <div className="app-container">
+      <div className="sidebar">
+        <ConversationList 
+          conversations={conversations}
+          selectedConversation={selectedConversation}
+          onSelectConversation={handleSelectConversation}
+        />
+      </div>
+
+      <div className="main-content">
+        {selectedConversation ? (
+          <>
+            <div className="thread-section">
+              <ThreadView messages={messages} loading={loading} />
+            </div>
+            <div className="reply-section">
+              <ReplyBox 
+                conversation={selectedConversation}
+                onSendReply={handleSendReply}
+              />
+            </div>
+          </>
+        ) : (
+          <div className="empty-state">
+            <p>Select a conversation to view messages</p>
+          </div>
+        )}
+      </div>
+
+      {customer && (
+        <div className="customer-panel">
+          <CustomerInfo customer={customer} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+

@@ -1,0 +1,112 @@
+# Render.com Deployment Configuration
+# Deploy Message Broker v2 to Render.com
+
+services:
+  # PostgreSQL Database
+  - type: pserv
+    name: message-broker-db
+    env: docker
+    plan: free
+    ipAddress: private
+    repo: https://github.com/artpro88/message-broker.git
+    dockerfilePath: ./Dockerfile.db
+    envVars:
+      - key: POSTGRES_USER
+        value: postgres
+      - key: POSTGRES_PASSWORD
+        generateValue: true
+      - key: POSTGRES_DB
+        value: message_broker
+    disk:
+      name: postgres-data
+      mountPath: /var/lib/postgresql/data
+      sizeGB: 10
+
+  # Backend API Service
+  - type: web
+    name: message-broker-backend
+    env: docker
+    plan: free
+    repo: https://github.com/artpro88/message-broker.git
+    dockerfilePath: ./Dockerfile
+    buildCommand: npm install && cd client && npm install && cd ..
+    startCommand: node server.js
+    healthCheckPath: /health
+    healthCheckInterval: 30
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: INSTANCE_NAME
+        value: render
+      - key: DB_HOST
+        fromService:
+          type: pserv
+          name: message-broker-db
+          property: host
+      - key: DB_PORT
+        value: 5432
+      - key: DB_NAME
+        value: message_broker
+      - key: DB_USER
+        value: postgres
+      - key: DB_PASSWORD
+        fromService:
+          type: pserv
+          name: message-broker-db
+          envVarKey: POSTGRES_PASSWORD
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_PHONE_NUMBER
+        sync: false
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRY
+        value: 24h
+      - key: LIVECHAT_ENABLED
+        value: "true"
+      - key: LIVECHAT_GREETING
+        value: "Hello! How can we help you today?"
+      - key: CORS_ORIGIN
+        value: https://message-broker-frontend.onrender.com
+      - key: LOG_LEVEL
+        value: info
+    routes:
+      - type: http
+        source: /
+        destination: /
+      - type: http
+        source: /api
+        destination: /api
+      - type: http
+        source: /webhooks
+        destination: /webhooks
+      - type: http
+        source: /socket.io
+        destination: /socket.io
+
+  # Frontend Service (Static Site)
+  - type: web
+    name: message-broker-frontend
+    env: static
+    plan: free
+    repo: https://github.com/artpro88/message-broker.git
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: ./client/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://message-broker-backend.onrender.com
+

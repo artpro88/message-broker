@@ -1,0 +1,128 @@
+.conversation-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.list-header {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.list-header h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #1ABC9C;
+  box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.1);
+}
+
+.conversations {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.empty-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #999;
+  font-size: 14px;
+}
+
+.conversation-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.conversation-item:hover {
+  background-color: #f0f0f0;
+}
+
+.conversation-item.active {
+  background-color: #e8f8f5;
+  border-left: 3px solid #1ABC9C;
+  padding-left: 13px;
+}
+
+.conversation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.customer-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #999;
+}
+
+.conversation-preview {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.channel-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+}
+
+.channel-badge.sms {
+  background-color: #FF6B35;
+}
+
+.channel-badge.email {
+  background-color: #004E89;
+}
+
+.channel-badge.livechat {
+  background-color: #1ABC9C;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+}
+
+.status-badge.open {
+  background-color: #27AE60;
+}
+
+.status-badge.closed {
+  background-color: #95A5A6;
+}
+
+.status-badge.pending {
+  background-color: #F39C12;
+}
+

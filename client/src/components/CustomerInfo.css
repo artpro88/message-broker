@@ -1,0 +1,82 @@
+.customer-info {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.info-header {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+}
+
+.info-header h3 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.info-section {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-section h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-row label {
+  color: #666;
+  font-weight: 500;
+}
+
+.info-row span {
+  color: #333;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-word;
+  max-width: 150px;
+}
+
+.balance {
+  color: #27AE60;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Scrollbar styling */
+.customer-info::-webkit-scrollbar {
+  width: 6px;
+}
+
+.customer-info::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.customer-info::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.customer-info::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+

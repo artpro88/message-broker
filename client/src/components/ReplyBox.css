@@ -1,0 +1,138 @@
+.reply-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.channel-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.channel-selector label {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.channel-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.channel-btn {
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.channel-btn:hover {
+  border-color: #1ABC9C;
+  color: #1ABC9C;
+}
+
+.channel-btn.active {
+  background-color: #1ABC9C;
+  border-color: #1ABC9C;
+  color: white;
+}
+
+.message-input-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 80px;
+  max-height: 200px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.message-input:focus {
+  border-color: #1ABC9C;
+  box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.1);
+}
+
+.message-input:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+.reply-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.btn-attach,
+.btn-send {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-attach {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.btn-attach:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-send {
+  background-color: #1ABC9C;
+  color: white;
+}
+
+.btn-send:hover:not(:disabled) {
+  background-color: #16a085;
+}
+
+.btn-send:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quick-btn {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.quick-btn:hover {
+  background-color: #e8f8f5;
+  border-color: #1ABC9C;
+  color: #1ABC9C;
+}
+

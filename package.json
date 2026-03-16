@@ -1,0 +1,38 @@
+{
+  "name": "message-broker",
+  "version": "2.0.0",
+  "description": "Unified communication interface for SMS, Email, and Live Chat",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "client": "cd client && npm run dev",
+    "setup": "npm install && cd client && npm install",
+    "test": "npm run test:db && npm run test:api && npm run test:webhooks",
+    "test:db": "node tests/database.test.js",
+    "test:api": "node tests/api.test.js",
+    "test:webhooks": "node tests/webhooks.test.js"
+  },
+  "keywords": ["messaging", "sms", "email", "livechat", "broker"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "pg": "^8.11.3",
+    "twilio": "^4.10.0",
+    "nodemailer": "^6.9.7",
+    "socket.io": "^4.7.2",
+    "jsonwebtoken": "^9.0.0",
+    "axios": "^1.6.2",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
+
