@@ -16,10 +16,6 @@ services:
         generateValue: true
       - key: POSTGRES_DB
         value: message_broker
-    disk:
-      name: postgres-data
-      mountPath: /var/lib/postgresql/data
-      sizeGB: 10
 
   # Backend API Service
   - type: web
@@ -29,7 +25,6 @@ services:
     repo: https://github.com/artpro88/message-broker.git
     dockerfilePath: ./Dockerfile
     buildCommand: npm install && cd client && npm install && cd ..
-    startCommand: node server.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -82,19 +77,6 @@ services:
         value: https://message-broker-frontend.onrender.com
       - key: LOG_LEVEL
         value: info
-    routes:
-      - type: http
-        source: /
-        destination: /
-      - type: http
-        source: /api
-        destination: /api
-      - type: http
-        source: /webhooks
-        destination: /webhooks
-      - type: http
-        source: /socket.io
-        destination: /socket.io
 
   # Frontend Service (Static Site)
   - type: web
