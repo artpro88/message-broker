@@ -79,10 +79,9 @@ services:
         value: info
 
   # Frontend Service (Static Site)
-  - type: web
+  - type: static
     name: message-broker-frontend
     env: static
-    plan: free
     repo: https://github.com/artpro88/message-broker.git
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: ./client/dist
