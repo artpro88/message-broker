@@ -10,6 +10,7 @@ import { dirname } from 'path';
 import customersRouter from './src/routes/customers.js';
 import conversationsRouter from './src/routes/conversations.js';
 import webhooksRouter from './src/routes/webhooks.js';
+import settingsRouter from './src/routes/settings.js';
 
 dotenv.config();
 
@@ -46,6 +47,7 @@ app.get('/health', (req, res) => {
 // API Routes
 app.use('/api/customers', customersRouter);
 app.use('/api/conversations', conversationsRouter);
+app.use('/api/settings', settingsRouter);
 app.use('/webhooks', webhooksRouter);
 
 // Live Chat Socket.IO

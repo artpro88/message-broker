@@ -3,6 +3,7 @@ import ConversationList from './components/ConversationList';
 import ThreadView from './components/ThreadView';
 import CustomerInfo from './components/CustomerInfo';
 import ReplyBox from './components/ReplyBox';
+import Settings from './components/Settings';
 import './App.css';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
   const [customer, setCustomer] = useState(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState('conversations');
 
   useEffect(() => {
     // Initialize Socket.IO connection
@@ -70,38 +72,62 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="sidebar">
-        <ConversationList 
-          conversations={conversations}
-          selectedConversation={selectedConversation}
-          onSelectConversation={handleSelectConversation}
-        />
-      </div>
-
-      <div className="main-content">
-        {selectedConversation ? (
-          <>
-            <div className="thread-section">
-              <ThreadView messages={messages} loading={loading} />
-            </div>
-            <div className="reply-section">
-              <ReplyBox 
-                conversation={selectedConversation}
-                onSendReply={handleSendReply}
-              />
-            </div>
-          </>
-        ) : (
-          <div className="empty-state">
-            <p>Select a conversation to view messages</p>
-          </div>
-        )}
-      </div>
-
-      {customer && (
-        <div className="customer-panel">
-          <CustomerInfo customer={customer} />
+      <nav className="navbar">
+        <div className="navbar-brand">Message Broker v2</div>
+        <div className="navbar-menu">
+          <button
+            className={`nav-button ${currentPage === 'conversations' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('conversations')}
+          >
+            Conversations
+          </button>
+          <button
+            className={`nav-button ${currentPage === 'settings' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('settings')}
+          >
+            Settings
+          </button>
         </div>
+      </nav>
+
+      {currentPage === 'conversations' ? (
+        <div className="app-content">
+          <div className="sidebar">
+            <ConversationList
+              conversations={conversations}
+              selectedConversation={selectedConversation}
+              onSelectConversation={handleSelectConversation}
+            />
+          </div>
+
+          <div className="main-content">
+            {selectedConversation ? (
+              <>
+                <div className="thread-section">
+                  <ThreadView messages={messages} loading={loading} />
+                </div>
+                <div className="reply-section">
+                  <ReplyBox
+                    conversation={selectedConversation}
+                    onSendReply={handleSendReply}
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="empty-state">
+                <p>Select a conversation to view messages</p>
+              </div>
+            )}
+          </div>
+
+          {customer && (
+            <div className="customer-panel">
+              <CustomerInfo customer={customer} />
+            </div>
+          )}
+        </div>
+      ) : (
+        <Settings />
       )}
     </div>
   );
